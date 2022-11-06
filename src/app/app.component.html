@@ -1,0 +1,54 @@
+
+<div>
+  <header>
+  <!-- navegacao -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" [routerLink]="'.'">
+        
+        <img width="100px" src="assets/img/logos/B---vermelho.png"></a>
+  
+      <!-- Step 3: Toggle the value of the property when the toggler button is clicked. -->
+      <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+        &#9776;
+      </button>
+  
+      <!-- Step 2: Add the ngbCollapse directive to the element below. -->
+      <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">  
+  <ul ngbNav #nav="ngbNav"  [activeId]="route.fragment | async" class="navbar-nav">
+    <li ngbNavItem="inicio">
+      <a ngbNavLink routerLink="/" fragment="inicio" class="">Inicio</a>
+      <ng-template ngbNavContent>Inicio</ng-template>
+    </li>
+    <!--li ngbNavItem="vendedores">
+      <a ngbNavLink routerLink="/vendedores" fragment="vendedores">Vendedores</a>
+      <ng-template ngbNavContent>Vendedores</ng-template>
+    </li-->
+    <!--li ngbNavItem="clube-futebol">
+      <a ngbNavLink routerLink="/clubes-futebol" fragment="clubes-futebol">Clubes de futebol</a>
+      <ng-template ngbNavContent>Clubes de futebol</ng-template>
+    </li-->    
+  </ul>
+
+</div>
+</div>
+</nav>
+</header>
+  <!--div [ngbNavOutlet]="nav"></div-->
+  <!-- navegacao -->
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+
+  <!-- footer>
+    <div class="container">
+    <div clas="row">
+      <div clas="col-12-lg">
+        <span class="mt-2">Desenvolvido pelos desenvolvedors da Firma: Fulano, Ciclano e Beltrano
+          <a href="https://www.flaticon.com/free-icons/credit-card-machine" title="credit card machine icons">&nbsp;</a>
+        </span><br>        
+      </div>
+    </div>
+  </div>
+  </footer-->
+</div>

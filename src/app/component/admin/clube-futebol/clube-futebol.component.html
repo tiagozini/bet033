@@ -1,0 +1,161 @@
+<div class="pagina container">
+
+    <ng-container *ngIf="clubeSelecionado || modoEdicao">
+        <div class="row" *ngIf="!modoEdicao">
+            <div class="col-12-lg">
+                <h1 class="mb-4 mt-4">Clube {{clubeSelecionado.nome}}</h1>
+                <p>
+                    <label class="detalhe">Nome</label> {{clubeSelecionado.nome}}<br/>
+                    <label class="detalhe">Nome oficial</label> {{clubeSelecionado.nomeOficial}}<br/>
+                    <label class="detalhe">Nome do técnico</label> {{clubeSelecionado.nomeTecnicoAtual}}<br/>
+                    <label class="detalhe">Data criação do time</label> {{clubeSelecionado.dataCriacaoTime}}<br/>
+                    <ng-container *ngIf="clubeSelecionado.urlLogo">
+                        <label class="detalhe">Logo</label> <img src="{{clubeSelecionado.urlLogo}}" width="50px"/><br/>
+                    </ng-container>
+                    <label class="detalhe">Pais</label> {{clubeSelecionado.pais}}<br/>
+                    <ng-container *ngIf="clubeSelecionado.pais=='BRASIL'">
+                        <label class="detalhe">Estado</label> {{clubeSelecionado.estado}}<br/>
+                    </ng-container>
+                    <label class="detalhe">Ativo</label> {{clubeSelecionado.ativo ? "Sim" : "Não"}}<br/>
+                </p>
+                <button class="btn btn-primary" (click)="editar()">Editar</button>
+                <button class="btn btn-outline-danger mx-2" (click)="remover()">Excluir</button>
+                <p class="mt-2"><a href="javascript:void(0)" (click)="voltarParaBusca()">Voltar</a></p>
+            </div>
+        </div>    
+        <div class="row" *ngIf="modoEdicao">
+            <form name="form" [formGroup]="form">
+            <div class="col-12-lg">    
+                <h1 *ngIf="clubeSelecionado" class="mb-4 mt-4">Edição do clube {{clubeSelecionado.nome}}</h1>
+                <h1 *ngIf="!clubeSelecionado" class="mb-4 mt-4">Cadastro de clube</h1>
+            </div>                              
+            <div class="col-12-lg" [class.required]="true">    
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input name="nome" id="nome" formControlName="nome" class="form-control" [required]="true"/>
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['nome']['errors']">
+                    <div *ngIf="form['controls']['nome']['errors']['required']">
+                        Nome é campo obrigatório.
+                    </div>
+                </div>            
+            </div>              
+            <div class="col-12-lg">    
+                <div class="form-group">
+                    <label for="nome oficial">Nome oficial</label>
+                    <input name="nomeOficial" id="nomeOficial" formControlName="nomeOficial" class="form-control" />
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['nomeOficial']['errors']">
+                    <div *ngIf="form['controls']['nomeOficial']['errors']['required']">
+                        Nome oficial é campo obrigatório.
+                    </div>
+                </div>            
+            </div>           
+            <div class="col-12-lg">    
+                <div class="form-group">
+                    <label for="nome oficial">Nome do técnico atual</label>
+                    <input name="nomeTecnicoAtual" id="nomeTecnicoAtual" formControlName="nomeTecnicoAtual" class="form-control" />
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['nomeTecnicoAtual']['errors']">
+                    <div *ngIf="form['controls']['nomeTecnicoAtual']['errors']['required']">
+                        Nome oficial é campo obrigatório.
+                    </div>
+                </div>            
+            </div>               
+            <div class="col-12-lg">    
+                <div class="form-group">
+                    <label for="nome oficial">Url do logo</label>
+                    <input name="urlLogo" id="urlLogo" formControlName="urlLogo" class="form-control" />
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['urlLogo']['errors']">
+                    <div *ngIf="form['controls']['urlLogo']['errors']['required']">
+                        Url do logo é campo obrigatório.
+                    </div>
+                </div>            
+            </div>              
+            <div class="col-12-lg">
+                <div class="form-group">
+                    <label for="pais">País</label>
+                    <input name="pais" id="pais" formControlName="pais" class="form-control" />
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['pais']['errors']">
+                    <div *ngIf="form['controls']['pais']['errors']['required']">
+                        País é campo obrigatório.
+                    </div>
+                </div>
+            </div>          
+            <div class="col-12-lg">
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <input name="estado" id="estado" formControlName="estado" class="form-control"/>
+                </div>
+                <div class="error" *ngIf="formEnviado && form['controls']['estado']['errors']">
+                    <div *ngIf="form['controls']['estado']['errors']['required']">
+                        Estado é campo obrigatório.
+                    </div>
+                </div>
+            </div>                            
+            <div class="row">
+                <div class="col-12-lg mt-4">
+                    <button class="float-right btn btn-primary" (click)="salvar()">Salvar</button>
+                    <button class="float-right btn btn-outline-danger mx-2" (click)="cancelarEdicao()">Cancelar</button>
+                </div>
+            </div>        
+        </form>
+        </div>    
+    </ng-container>
+    <div [hidden]="clubeSelecionado || modoEdicao">
+        <div class="row">
+            <div class="col-12-lg">
+                <h1 class="mb-4 mt-4">Clubes</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12-lg mb-2">
+                <button class="float-right btn btn-primary" (click)="cadastrar()">Novo clube</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12-lg mb-2" *ngIf="clubes.length==0">
+                Não foram encontrados clubes com os filtros utilizados.
+            </div>
+            <div class="col-12-lg mb-2" *ngIf="clubes.length>0">
+                Foram encontrados {{clubes.length}} clubes.
+            </div>
+        </div>
+        <div class="row" *ngIf="clubes.length>0">
+            <div class="col-12-lg">
+                <div class="table-responsive">
+                    <table class="table table-light table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col"></th>
+                            <th scope="col">Nome oficial</th>
+                            <th scope="col">Nome oficial</th>
+                            <th scope="col">Técnico Atual</th>
+                            <th scope="col">País</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let clube of clubes">
+                                <th scope="row"><a href="javascript:void(0)" (click)="visualizarDetalhes(clube)">{{clube.id}}</a></th>
+                                <td><img src="{{clube.urlLogo}}" width="50px"/></td>
+                                <td>{{clube.nome}}</td>
+                                <td>{{clube.nomeOficial}}</td>
+                                <td>{{clube.nomeTecnicoAtual}}</td>
+                                <td>{{clube.pais}}</td>
+                                <td>{{clube.estado}}</td>
+
+                                <td><button class="btn btn-outline-primary" (click)="visualizarDetalhes(clube)">Detalhes</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    
